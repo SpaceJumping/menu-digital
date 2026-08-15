@@ -1,0 +1,987 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Space Jumping San Cristóbal | Menú Galáctico</title>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;600;800&family=Exo+2:wght@300;400;500;600&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="index.css">
+</head>
+
+<body>
+
+    <canvas id="c"></canvas>
+    <div id="warp"></div>
+    <canvas id="warp-lines"></canvas>
+
+    <!-- ASTRONAUTA SVG -->
+    <svg id="astro" class="deco" viewBox="0 0 120 160" xmlns="http://www.w3.org/2000/svg">
+        <ellipse cx="60" cy="115" rx="32" ry="22" fill="#1a2a1a" opacity="0.9" />
+        <rect x="40" y="78" width="40" height="55" rx="12" fill="#1e3a1e" />
+        <rect x="28" y="84" width="18" height="38" rx="9" fill="#1e3a1e" />
+        <rect x="74" y="84" width="18" height="38" rx="9" fill="#1e3a1e" />
+        <rect x="44" y="128" width="14" height="24" rx="7" fill="#1e3a1e" />
+        <rect x="62" y="128" width="14" height="24" rx="7" fill="#1e3a1e" />
+        <circle cx="60" cy="56" r="30" fill="#1e3a1e" />
+        <circle cx="60" cy="56" r="22" fill="#0a1a0a" />
+        <ellipse cx="60" cy="56" rx="20" ry="18" fill="#0d2a1a" />
+        <ellipse cx="60" cy="60" rx="14" ry="12" fill="#020a05" opacity="0.8" />
+        <path d="M50 52 Q60 44 70 52 Q65 58 60 60 Q55 58 50 52Z" fill="#39ff14" opacity="0.15" />
+        <line x1="28" y1="84" x2="18" y2="72" stroke="#39ff14" stroke-width="1.5" opacity="0.4" />
+        <circle cx="14" cy="70" r="5" fill="#0a1a0a" stroke="#39ff14" stroke-width="1" opacity="0.5" />
+        <rect x="50" y="92" width="20" height="14" rx="3" fill="#0a2a0a" />
+        <circle cx="55" cy="99" r="2" fill="#39ff14" opacity="0.7" />
+        <circle cx="65" cy="99" r="2" fill="#0affb3" opacity="0.7" />
+    </svg>
+
+    <svg id="planet1" class="deco" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+        <circle cx="50" cy="50" r="38" fill="#0d1a0d" />
+        <circle cx="50" cy="50" r="35" fill="#0a2a1a" />
+        <ellipse cx="50" cy="50" rx="35" ry="35" fill="none" stroke="#39ff14" stroke-width="1" opacity="0.4" />
+        <path d="M15 50 Q30 38 50 42 Q70 46 85 50" fill="none" stroke="#0affb3" stroke-width="1.5" opacity="0.35" />
+        <path d="M18 58 Q35 48 55 52 Q72 56 82 58" fill="none" stroke="#39ff14" stroke-width="1" opacity="0.25" />
+        <ellipse cx="50" cy="50" rx="48" ry="12" fill="none" stroke="#39ff14" stroke-width="1.5" opacity="0.3" />
+    </svg>
+
+    <svg id="planet2" class="deco" viewBox="0 0 80 80" xmlns="http://www.w3.org/2000/svg">
+        <circle cx="40" cy="40" r="28" fill="#1a0a1a" />
+        <circle cx="40" cy="40" r="25" fill="#200d2a" />
+        <path d="M22 40 Q32 32 45 36 Q55 40 58 40" fill="none" stroke="#a040ff" stroke-width="1.5" opacity="0.5" />
+        <path d="M24 47 Q36 40 50 44" fill="none" stroke="#c080ff" stroke-width="1" opacity="0.35" />
+        <ellipse cx="40" cy="40" rx="36" ry="9" fill="none" stroke="#8020e0" stroke-width="1.5" opacity="0.4" />
+        <circle cx="32" cy="33" r="4" fill="#2a0a3a" />
+        <circle cx="48" cy="46" r="3" fill="#2a0a3a" />
+    </svg>
+
+    <svg id="planet3" class="deco" viewBox="0 0 60 60" xmlns="http://www.w3.org/2000/svg">
+        <circle cx="30" cy="30" r="20" fill="#0a1a2a" />
+        <circle cx="30" cy="30" r="17" fill="#0d2035" />
+        <path d="M13 30 Q22 24 35 27 Q44 30 47 30" fill="none" stroke="#0affb3" stroke-width="1.2" opacity="0.45" />
+        <ellipse cx="30" cy="30" rx="26" ry="7" fill="none" stroke="#0affb3" stroke-width="1.2" opacity="0.35" />
+    </svg>
+
+    <svg id="sat" class="deco" viewBox="0 0 60 60" xmlns="http://www.w3.org/2000/svg">
+        <rect x="22" y="26" width="16" height="10" rx="2" fill="#1a2a1a" stroke="#39ff14" stroke-width="0.8"
+            opacity="0.7" />
+        <rect x="6" y="27" width="14" height="6" rx="1" fill="#39ff14" opacity="0.5" />
+        <rect x="40" y="27" width="14" height="6" rx="1" fill="#39ff14" opacity="0.5" />
+        <line x1="20" y1="30" x2="6" y2="30" stroke="#39ff14" stroke-width="0.8" opacity="0.4" />
+        <line x1="40" y1="30" x2="54" y2="30" stroke="#39ff14" stroke-width="0.8" opacity="0.4" />
+        <circle cx="30" cy="31" r="2" fill="#0affb3" opacity="0.8" />
+    </svg>
+    <header>
+        <img src="img-alim/logo-left.png" alt="Logo Izquierdo" class="logo logo-left">
+
+        <div class="title-block">
+            <h1>🚀 SPACE JUMPING<br>SAN CRISTÓBAL</h1>
+            <p>⚡ Menú digital · Sabor interestelar ⚡</p>
+        </div>
+
+        <img src="img-alim/logo-right.jpeg" alt="Logo Derecho" class="logo logo-right">
+    </header>
+
+    <nav>
+        <button onclick="show('snacks',this)">🪐 SNACKS</button>
+        <button onclick="show('ensa',this)">🥗 ENSALADAS</button>
+        <button onclick="show('pizzas',this)">🍕 PIZZAS</button>
+        <button onclick="show('burgers',this)">🍔 BURGERS</button>
+        <button onclick="show('combos',this)">🍟 COMBOS</button>
+        <button onclick="show('kids',this)">👾 KID'S MENU</button>
+        <button onclick="show('postres',this)">🌙 POSTRES</button>
+        <button onclick="show('calientes',this)">☕ BEB. CALIENTES</button>
+        <button onclick="show('frias',this)">🧊 BEB. FRÍAS</button>
+        <button onclick="show('cervezas',this)">🍺 CERVEZAS</button>
+        <button onclick="show('licores',this)">🍹 LICORES</button>
+    </nav>
+
+    <div class="wrap">
+
+        <!-- SNACKS -->
+        <section id="snacks" class="sec active">
+            <div class="sec-title">🪐 Snacks</div>
+
+            <div class="card">
+                <h3>Papas a la Francesa</h3>
+                <p>Clásicas y crujientes.</p>
+                <div class="price">70<span class="cur"></span></div>
+                <div class="extra">✨ Cambia a papas jumbo por 20 más</div>
+                <div class="extra">🔥 Vuélvelos SPACE +20 — queso cheddar + chistorra</div>
+                <img src="img-alim/papas.jpg" alt="papas" class="card-img">
+            </div>
+
+            <div class="card">
+                <h3>Papas Gajo</h3>
+                <p>Pimentón y especias.</p>
+                <div class="price">70<span class="cur"></span></div>
+                <div class="extra">🔥 Vuélvelas SPACE +20 — queso cheddar + chistorra</div>
+                <img src="img-alim/gajos.jpeg" alt="Papas gajo" class="card-img">
+            </div>
+
+            <div class="card">
+                <h3>Dedos de Queso</h3>
+                <p>Empanizado crujiente.</p>
+                <div class="price">80<span class="cur"></span></div>
+                <img src="img-alim/dedos.jpeg" alt="Dedos de queso" class="card-img">
+            </div>
+
+            <div class="card">
+                <h3>Nachos</h3>
+                <p>Totopos, pico de gallo, chiles jalapeños, frijol, queso cheddar y mozzarella.</p>
+                <div class="price">80<span class="cur"></span></div>
+                <div class="extra">🔥 Vuélvelos SPACE +20 — queso cheddar + chistorra</div>
+                <img src="img-alim/nachos.jpeg" alt="Nachos" class="card-img">
+            </div>
+
+            <div class="card">
+                <h3>Alitas 6 piezas</h3>
+                <p>Hasta 1 sabor.</p>
+                <div class="price">80<span class="cur"></span></div>
+                <div class="extra">Cambia a boneless +10</div>
+                <img src="img-alim/alitas.jpeg" alt="Alitas" class="card-img">
+            </div>
+
+            <div class="card">
+                <h3>Alitas 12 piezas</h3>
+                <p>Hasta 2 sabores.</p>
+                <div class="price">140<span class="cur"></span></div>
+                <div class="extra">Cambia a boneless +20</div>
+                <img src="img-alim/alitas2.jpeg" alt="papas" class="card-img">
+            </div>
+
+            <div class="card">
+                <h3>Boneless Pop</h3>
+                <div class="price">80<span class="cur"></span></div>
+                <div class="extra">Sabores a elegir</div>
+                <img src="img-alim/pop.jpeg" alt="Boneless pop" class="card-img">
+            </div>
+
+            <div class="card">
+                <h3>Aderezos disponibles</h3>
+                <p>Con picante:</p>
+                <div class="pills">
+                    <span class="pill hot">Buffalo</span>
+                    <span class="pill hot">Mango Habanero</span>
+                </div>
+                <p>Sin picante:</p>
+                <div class="pills">
+                    <span class="pill safe">BBQ</span>
+                    <span class="pill safe">Teriyaki</span>
+                    <span class="pill safe">Ajo Parmesano</span>
+                    <span class="pill safe">Lemon Pepper</span>
+                </div>
+            </div>
+
+            <div class="card">
+                <h3>Extras</h3>
+                <div class="price">20<span class="cur"> c/u</span></div>
+                <div class="pills" style="margin-top:0.6rem">
+                    <span class="pill">BBQ</span><span class="pill">Teriyaki</span>
+                    <span class="pill">Ajo Parmesano</span><span class="pill">Lemon Pepper</span>
+                    <span class="pill hot">Buffalo</span><span class="pill hot">Mango Habanero</span>
+                    <span class="pill">Chimichurri</span><span class="pill">Miel</span>
+                    <span class="pill hot">Jalapeños</span>
+                </div>
+            </div>
+        </section>
+
+        <!-- ENSALADAS -->
+        <section id="ensa" class="sec">
+            <div class="sec-title">🥗 Ensaladas &amp; Frescos</div>
+
+            <div class="card">
+                <h3>🥗 Ensalada César</h3>
+                <p>Lechuga orejona, pechuga de pollo, queso parmesano, crutones, nueces, aderezo César.</p>
+                <div class="price">70<span class="cur"></span></div>
+                <img src="img-alim/ensalada-cesar.jpg" alt="ensalada" class="card-img">
+            </div>
+
+            <div class="card">
+                <h3>🥕 Bastones de Verdura</h3>
+                <p>Pepino, jícama, zanahoria.</p>
+                <div class="price">50<span class="cur"></span></div>
+                <img src="img-alim/bastones.jpg" alt="batones" class="card-img">
+            </div>
+        </section>
+
+        <!-- PIZZAS -->
+        <section id="pizzas" class="sec">
+            <div class="sec-title">🍕 Pizzas</div>
+
+            <div class="card">
+                <h3>Jumping</h3>
+                <p>Salsa de tomate, mozzarella, champiñones, aceitunas negras, salami, pimientos.</p>
+                <div class="price">170<span class="cur"></span></div>
+                <img src="img-alim/jumping.jpeg" alt="Pizza Jumping" class="card-img">
+            </div>
+
+            <div class="card">
+                <h3>Margarita</h3>
+                <p>Salsa de tomate, mozzarella, orégano.</p>
+                <div class="price">170<span class="cur"></span></div>
+                <img src="img-alim/marg.webp" alt="margharita" class="card-img">
+            </div>
+
+            <div class="card">
+                <h3>Hawaiana</h3>
+                <p>Salsa de tomate, mozzarella, jamón, piña.</p>
+                <div class="price">170<span class="cur"></span></div>
+                <img src="img-alim/hawa.avif" alt="hawa" class="card-img">
+            </div>
+
+            <div class="card">
+                <h3>Pepperoni</h3>
+                <p>Salsa de tomate, mozzarella, pepperoni.</p>
+                <div class="price">170<span class="cur"></span></div>
+                <img src="img-alim/peperoni.png" alt="hawa" class="card-img">
+            </div>
+
+            <div class="card">
+                <h3>Terra</h3>
+                <p>Salsa de tomate, mozzarella, tocino, champiñones.</p>
+                <div class="price">170<span class="cur"></span></div>
+                <img src="img-alim/terra.avif" alt="terra" class="card-img">
+            </div>
+
+            <div class="card">
+                <h3>Jamón Serrano</h3>
+                <p>Salsa de tomate, mozzarella, jamón serrano, orégano.</p>
+                <div class="price">220<span class="cur"></span></div>
+                <img src="img-alim/jamonn.JPG" alt="jamon" class="card-img">
+            </div>
+
+            <div class="card">
+                <h3>4 Quesos</h3>
+                <p>Salsa de tomate, mozzarella, parmesano, gouda, roquefort.</p>
+                <div class="price">220<span class="cur"></span></div>
+                <img src="img-alim/4quesos.jpg" alt="jamon" class="card-img">
+            </div>
+
+            <div class="note">🌟 ¡Pregunta por nuestras promociones!</div>
+        </section>
+
+        <!-- BURGERS -->
+        <section id="burgers" class="sec">
+            <div class="sec-title">🍔 Hamburguesas</div>
+
+            <div class="card">
+                <h3>🌌 Ton 618</h3>
+                <p>Pan ajo parmesano, sirloin, lechuga, tomate, cebolla caramelizada, tocino, gouda, mango habanero.</p>
+                <p>Incluye papas a la francesa.</p>
+                <div class="price">130<span class="cur"></span></div>
+                <div class="extra">+20 → cambia a papas gajo</div>
+                <img src="img-alim/ton.jpeg" alt="Hamburguesa Ton 618" class="card-img">
+            </div>
+
+            <div class="card">
+                <h3>✨ Venus</h3>
+                <p>Pan finas hierbas, arrachera, lechuga, tomate, piña, tocino, manchego, BBQ.</p>
+                <p>Incluye papas a la francesa.</p>
+                <div class="price">130<span class="cur"></span></div>
+                <div class="extra">+20 → cambia a papas gajo</div>
+                <img src="img-alim/venus.jpeg" alt="Hamburguesa Venus" class="card-img">
+            </div>
+
+            <div class="card">
+                <h3>🌑 Eclipse</h3>
+                <p>Pan tradicional, carne res y cerdo, lechuga, tomate, cebolla morada, aguacate, tocino, mostaza dulce,
+                    manchego.</p>
+                <p>Incluye papas a la francesa.</p>
+                <div class="price">130<span class="cur"></span></div>
+                <div class="extra">+20 → cambia a papas gajo</div>
+                <img src="img-alim/eclip.jpeg" alt="Hamburguesa Eclipse" class="card-img">
+            </div>
+
+            <div class="note">📦 Pedidos para llevar: domo ecológico 10 adicional</div>
+        </section>
+
+        <!-- COMBOS -->
+        <section id="combos" class="sec">
+            <div class="sec-title">🍟 Combos</div>
+
+            <div class="card">
+                <h3>⚪ Mercurio</h3>
+                <p>6 alitas · Papas gajo · Bastones de verdura.</p>
+                <div class="price">205<span class="cur"></span></div>
+                <div class="extra">Cambia a boneless +10</div>
+                <img src="img-alim/combo.jpeg" alt="Combo" class="card-img">
+            </div>
+
+            <div class="card">
+                <h3>🔴 Marte</h3>
+                <p>6 alitas · Papas a la francesa · Nachos tradicionales.</p>
+                <div class="price">205<span class="cur"></span></div>
+                <div class="extra">Cambia a boneless +10</div>
+                <img src="img-alim/marte.jpg" alt="marte" class="card-img">
+            </div>
+
+            <div class="card">
+                <h3>🟠 Júpiter</h3>
+                <p>6 alitas · Papas a la francesa · Dedos de queso.</p>
+                <div class="price">220<span class="cur"></span></div>
+                <div class="extra">Cambia a boneless +10</div>
+                <img src="img-alim/jupiter.jpeg" alt="Jupiter" class="card-img">
+            </div>
+
+            <div class="card">
+                <h3>🌌 Vía Láctea</h3>
+                <p>6 alitas + 6 boneless · Papas · Palitos verdura · Media pizza · 6 aros de cebolla · 2 Cocas 235ml.
+                </p>
+                <div class="price">429<span class="cur"></span></div>
+                <div class="extra">Sabores a elegir</div>
+                <img src="img-alim/via.jpeg" alt="Combo Vía Láctea" class="card-img">
+            </div>
+        </section>
+
+        <!-- KID'S MENU -->
+        <section id="kids" class="sec">
+            <div class="sec-title">👾 Kid's Menu</div>
+
+            <div class="card">
+                <h3>🚀 Space Box</h3>
+                <p>La cajita espacial especial para los pequeños astronautas.</p>
+                <div class="price">140<span class="cur"></span></div>
+                <img src="img-alim/sbox.jpeg" alt="Space Box" class="card-img">
+            </div>
+
+            <div class="card">
+                <h3>🍍 Plato de Fruta</h3>
+                <p>Fruta de temporada, miel y amaranto.</p>
+                <div class="price">50<span class="cur"></span></div>
+                <img src="img-alim/fruta.jpeg" alt="Plato de Fruta" class="card-img">
+            </div>
+
+            <div class="card">
+                <h3>🧇 Waffles</h3>
+                <p>Con fruta, crema batida y miel.</p>
+                <div class="price">60<span class="cur"></span></div>
+                <div class="extra">👾 Vuélvelos Space +20 — incluye más frutas</div>
+                <img src="img-alim/waf.jpeg" alt="Waffles" class="card-img">
+            </div>
+        </section>
+
+        <!-- POSTRES -->
+        <section id="postres" class="sec">
+            <div class="sec-title">🌙 Postres</div>
+
+            <div class="card">
+                <h3>🍮 Roles</h3>
+                <div class="price">50<span class="cur"></span></div>
+                <img src="img-alim/roll.jpg" alt="Flan Napolitano" class="card-img">
+            </div>
+
+            <div class="card">
+                <h3>🧀 Pay de Queso</h3>
+                <div class="price">50<span class="cur"></span></div>
+                <img src="img-alim/pay.jpg" alt="pay de queso" class="card-img">
+            </div>
+
+            <div class="card">
+                <h3>🥧 Pay de elote</h3>
+                <div class="price">60<span class="cur"></span></div>
+                <img src="img-alim/elote.jpg" alt="Pay de Queso" class="card-img">
+            </div>
+
+            <div class="card">
+                <h3>🥕 Pastel de Zanahoria</h3>
+                <div class="price">60<span class="cur"></span></div>
+                <img src="img-alim/zanahoria.jpg" alt="zana" class="card-img">
+            </div>
+        </section>
+
+        <!-- BEBIDAS CALIENTES -->
+        <section id="calientes" class="sec">
+            <div class="sec-title">☕ Bebidas Calientes</div>
+
+            <div class="card">
+                <h3>☕ Café Americano</h3>
+                <p>Clásico y reconfortante.</p>
+                <div class="price">40<span class="cur"></span></div>
+                <img src="img-alim/cafe.webp" alt="cafe" class="card-img">
+            </div>
+
+            <div class="card">
+                <h3>☕ Café Americano Refill</h3>
+                <p>3 tazas incluidas.</p>
+                <div class="price">70<span class="cur"></span></div>
+                <img src="img-alim/caferef.webp" alt="ref" class="card-img">
+            </div>
+
+            <div class="card">
+                <h3>☕ Expresso Doble</h3>
+                <div class="price">40<span class="cur"></span></div>
+                <img src="img-alim/expre.webp" alt="expre" class="card-img">
+            </div>
+
+            <div class="card">
+                <h3>🌿 Tés de Sabores</h3>
+                <div class="pills">
+                    <span class="pill">Manzanilla</span><span class="pill">Menta</span>
+                    <span class="pill">Hierbabuena</span><span class="pill">Limón</span>
+                    <span class="pill">Manzana Canela</span>
+                </div>
+                <div class="price">40<span class="cur"></span></div>
+                <img src="img-alim/te.webp" alt="te" class="card-img">
+            </div>
+
+            <div class="card">
+                <h3>🍵 Tisanas</h3>
+                <div class="pills">
+                    <span class="pill">Moras del bosque</span><span class="pill">Mango-durazno</span>
+                    <span class="pill">Fresa-Kiwi</span><span class="pill">Ponche de guayaba</span>
+                    <span class="pill">Manzana-arándanos</span>
+                </div>
+                <div class="price">60<span class="cur"></span></div>
+                <img src="img-alim/tisana.jpeg" alt="Tisanas" class="card-img">
+            </div>
+
+            <div class="card">
+                <h3>🍫 Chocolate con Agua</h3>
+                <div class="price">70<span class="cur"></span></div>
+                <img src="img-alim/chocolate.jpg" alt="chocolate" class="card-img">
+            </div>
+
+            <div class="card">
+                <h3>🥛 Chocolate con Leche</h3>
+                <div class="price">70<span class="cur"></span></div>
+                <img src="img-alim/chocolatec.jpg" alt="chocolate" class="card-img">
+            </div>
+
+            <div class="card">
+                <h3>☕ Capuchino Clásico</h3>
+                <div class="price">60<span class="cur"></span></div>
+                <img src="img-alim/capu.jpeg" alt="Capuchino" class="card-img">
+            </div>
+
+            <div class="card">
+                <h3>☕ Capuchino de Sabores</h3>
+                <div class="pills">
+                    <span class="pill">Rompope</span><span class="pill">Vainilla</span>
+                    <span class="pill">Moka</span><span class="pill">Cajeta</span>
+                    <span class="pill">Kahlúa</span><span class="pill">Baileys</span>
+                </div>
+                <div class="price">70<span class="cur"></span></div>
+            </div>
+
+            <div class="card">
+                <h3>🥛 Vaso de Leche</h3>
+                <div class="price">40<span class="cur"></span></div>
+            </div>
+
+            <div class="note">🥛 Leche deslactosada: +5</div>
+        </section>
+
+        <!-- BEBIDAS FRÍAS -->
+        <section id="frias" class="sec">
+            <div class="sec-title">🧊 Bebidas Frías</div>
+
+            <div class="card">
+                <h3>🥤 Tés Fríos</h3>
+                <div class="pills">
+                    <span class="pill">Manzanilla</span><span class="pill">Menta</span>
+                    <span class="pill">Hierbabuena</span><span class="pill">Limón</span>
+                    <span class="pill">Manzana Canela</span>
+                </div>
+                <div class="price">35<span class="cur"></span></div>
+                <img src="img-alim/te-frio.webp" alt="te-frio" class="card-img">
+            </div>
+
+            <div class="card">
+                <h3>🥤 Sodas</h3>
+                <div class="pills">
+                    <span class="pill">Coca Cola</span><span class="pill">Sprite</span>
+                    <span class="pill">Mundet</span><span class="pill">Fanta</span>
+                    <span class="pill">Fresca</span>
+                    <img src="img-alim/soda.jpg" alt="soda" class="card-img">
+                </div>
+                <div class="price">38<span class="cur"></span></div>
+            </div>
+
+            <div class="card">
+                <h3>🍊 Naranjada / Limonada Natural</h3>
+                <div class="price">35<span class="cur"></span></div>
+                <img src="img-alim/naranja.avif" alt="naranja" class="card-img">
+            </div>
+
+            <div class="card">
+                <h3>🍊 Naranjada / Limonada Mineral</h3>
+                <div class="price">45<span class="cur"></span></div>
+                <img src="img-alim/vlimon.webp" alt="limonada" class="card-img">
+            </div>
+
+            <div class="card">
+                <h3>🚀 Naranjada Space / Limo Espacial</h3>
+                <p>Bebida especial de la casa.</p>
+                <div class="price">50<span class="cur"></span></div>
+                <img src="img-alim/limonsp.jpg" alt="limo" class="card-img">
+            </div>
+
+            <div class="card">
+                <h3>Bubble tea</h3>
+                <div class="pills">
+                    <span class="pill">Matcha latte</span> <span class="pill">Luna latte</span>
+                    <span class="pill">Pink latte</span> <span class="pill">Taro latte</span>
+                </div>
+                <div class="price">70<span class="cur"></span></div>
+                <div class="extra">+5 Leche deslactosada</div>
+                <img src="img-alim/bubble.webp" alt="bubble" class="card-img">
+            </div>
+
+            <div class="card">
+                <h3>🧋 Frappe</h3>
+                <div class="pills">
+                    <span class="pill">Oreo</span><span class="pill">Chocolate</span>
+                    <span class="pill">Vainilla</span><span class="pill">Fresa</span>
+                </div>
+                <div class="price">70<span class="cur"></span></div>
+                <div class="extra">+5 Leche deslactosada</div>
+                <img src="img-alim/frappe.jpeg" alt="Frappe" class="card-img">
+            </div>
+
+            <div class="card">
+                <h3>🥤 Malteadas</h3>
+                <div class="pills">
+                    <span class="pill">Fresa</span><span class="pill">Chocolate</span>
+                    <span class="pill">Vainilla</span>
+                </div>
+                <div class="price">70<span class="cur"></span></div>
+                <div class="extra">+5 Leche deslactosada</div>
+                <img src="img-alim/malteada.png" alt="malteada" class="card-img">
+            </div>
+
+            <div class="card">
+                <h3>☕ Capuchino Helado</h3>
+                <div class="pills">
+                    <span class="pill">Rompope</span><span class="pill">Vainilla</span>
+                    <span class="pill">Moka</span><span class="pill">Cajeta</span>
+                    <span class="pill">Kahlúa</span><span class="pill">Baileys</span>
+                    <span class="pill">Oreo</span>
+                </div>
+                <div class="price">80<span class="cur"></span></div>
+                <div class="extra">+5 Leche deslactosada</div>
+                <img src="img-alim/capu_helado.jpeg" alt="Capuchino Helado" class="card-img">
+            </div>
+
+            <div class="card">
+                <h3>☕ Frappuccino (café 2oz)</h3>
+                <div class="pills">
+                    <span class="pill">Rompope</span><span class="pill">Vainilla</span>
+                    <span class="pill">Moka</span><span class="pill">Cajeta</span>
+                    <span class="pill">Kahlúa</span><span class="pill">Baileys</span>
+                    <span class="pill">Oreo</span>
+                </div>
+                <div class="price">80<span class="cur"></span></div>
+                <div class="extra">+5 Leche deslactosada</div>
+                <img src="img-alim/frappe.jpeg" alt="Frappe" class="card-img">
+            </div>
+
+            <div class="card">
+                <h3>🫙 Jarra Agua Natural</h3>
+                <p>Naranjada o limonada.</p>
+                <div class="price">120<span class="cur"></span></div>
+                <img src="img-alim/limon.webp" alt="limonada" class="card-img">
+            </div>
+
+            <div class="card">
+                <h3>🫙 Jarra Agua Mineral</h3>
+                <p>Naranjada o limonada.</p>
+                <div class="price">150<span class="cur"></span></div>
+                <img src="img-alim/jarnaranja.webp" alt="jarra" class="card-img">
+            </div>
+
+            <div class="card">
+                <h3>💧 Botella Agua Natural</h3>
+                <div class="price">25<span class="cur"></span></div>
+                <img src="img-alim/agua.webp" alt="agua" class="card-img">
+            </div>
+
+            <div class="card">
+                <h3>💧 Agua Mineral</h3>
+                <div class="price">35<span class="cur"></span></div>
+                <img src="img-alim/mineral.avif" alt="limo" class="card-img">
+            </div>
+
+            <div class="card">
+                <h3>🧃 Sueros</h3>
+                <div class="pills">
+                    <span class="pill">Mora azul</span><span class="pill">Fresa</span>
+                    <span class="pill">Kiwi</span><span class="pill">Manzana</span>
+                    <span class="pill">Uva</span>
+                </div>
+                <div class="price">40<span class="cur"></span></div>
+                <img src="img-alim/suero.webp" alt="suero" class="card-img">
+            </div>
+        </section>
+
+        <!-- CERVEZAS -->
+        <section id="cervezas" class="sec">
+            <div class="sec-title">🍺 Cervezas &amp; Vinos</div>
+
+            <div class="card">
+                <h3>🍺 Cervezas Tradicionales</h3>
+                <div class="pills">
+                    <span class="pill">XX Lager</span><span class="pill">XX Ámbar</span>
+                    <span class="pill">Indio</span>
+                    <img src="img-alim/lager.jpg" alt="lager" class="card-img">
+                </div>
+                <div class="price">50<span class="cur"></span></div>
+                <div class="extra">+15: Clamato · Michelada (clásica, mango, tamarindo) · Chelada</div>
+            </div>
+
+            <div class="card">
+                <h3>🍺 Cervezas Premium</h3>
+                <div class="pills">
+                    <span class="pill">Bohemia Clara</span><span class="pill">Bohemia Oscura</span>
+                    <span class="pill">Heineken</span><span class="pill">Ultra</span>
+                    <img src="img-alim/Bohemia-Oscura.jpg" alt="bohemia" class="card-img">
+                </div>
+                <div class="price">60<span class="cur"></span></div>
+            </div>
+
+            <div class="card">
+                <h3>🍷 Vino por Copeo</h3>
+                <p>Concha y Toro: Merlot · Malbec · Cabernet Sauvignon</p>
+                <div class="price">60<span class="cur"></span></div>
+                <img src="img-alim/lambru.jpg" alt="lambrusco" class="card-img">
+            </div>
+
+            <div class="card">
+                <h3>🍷 Vinos por Botella</h3>
+                <p>Concha y Toro: Merlot · Malbec · Cabernet Sauvignon</p>
+                <div class="price">250<span class="cur"></span></div>
+                <img src="img-alim/concha.jpg" alt="concha" class="card-img">
+            </div>
+
+            <div class="card">
+                <h3>🍷 Vinos Premium</h3>
+                <table class="ptable">
+                    <tr>
+                        <td>Finca Las Moras</td>
+                        <td>310</td>
+                    </tr>
+                    <tr>
+                        <td>Riunite Lambrusco Tinto</td>
+                        <td>280</td>
+                    </tr>
+                </table>
+            </div>
+        </section>
+
+        <!-- LICORES -->
+        <section id="licores" class="sec">
+            <div class="sec-title">🍹 Licores &amp; Cócteles</div>
+
+            <div class="card">
+                <h3>🍹 Coctelería (1.5oz)</h3>
+                <div class="pills">
+                    <span class="pill">Mojito Cubano</span><span class="pill">Piña Colada</span>
+                    <span class="pill">Margarita</span><span class="pill">Paloma</span>
+                    <span class="pill">Sangría</span><span class="pill">Daikiri de Fresa</span>
+                    <span class="pill">Vodka Tonic</span><span class="pill">Gin Tonic</span>
+                </div>
+                <div class="price">110<span class="cur"></span></div>
+                <img src="img-alim/colada.jpeg" alt="Piña Colada" class="card-img">
+            </div>
+
+            <div class="card">
+                <h3>🥃 Licores por Copeo (2oz)</h3>
+                <div class="pills">
+                    <span class="pill">Whisky Etiqueta Roja</span><span class="pill">Ron Bacardí</span>
+                    <span class="pill">Tanqueray</span><span class="pill">Vodka Absolut</span>
+                    <span class="pill">Tequila José Cuervo</span>
+                </div>
+                <div class="price">120<span class="cur"></span></div>
+                <img src="img-alim/cuba.jpg" alt="cuba" class="card-img">
+            </div>
+
+            <div class="card">
+                <h3>🍶 Especiales (2oz)</h3>
+                <table class="ptable">
+                    <tr>
+                        <td>Copa de Clericot</td>
+                        <td>120</td>
+                    </tr>
+                    <tr>
+                        <td>Carajillo</td>
+                        <td>120</td>
+                    </tr>
+                    <tr>
+                        <td>Kahlúa</td>
+                        <td>120</td>
+                    </tr>
+                    <tr>
+                        <td>Baileys</td>
+                        <td>120</td>
+                    </tr>
+                </table>
+                <img src="img-alim/cleri.jpeg" alt="Clericot" class="card-img">
+            </div>
+
+            <div class="card">
+                <h3>🫙 Jarra de Clericot</h3>
+                <p>2 litros.</p>
+                <div class="price">280<span class="cur"></span></div>
+                <img src="img-alim/jarra-clei.webp" alt="jarra" class="card-img">
+            </div>
+
+            <div class="card">
+                <h3>🧃 Mezcladores</h3>
+                <div class="pills">
+                    <span class="pill">Agua mineral</span><span class="pill">Agua tónica</span>
+                    <span class="pill">Coca Cola</span>
+                </div>
+                <div class="price">35<span class="cur"></span></div>
+                <img src="img-alim/tonica.jpg" alt="tonica" class="card-img">
+            </div>
+        </section>
+
+    </div>
+
+    <footer>🛸 Space Jumping · San Cristóbal · Explora cada sabor del universo 🛸</footer>
+
+    <!-- REDES SOCIALES FLOTANTES -->
+    <div style="position:fixed;bottom:1.5rem;left:1.2rem;z-index:500;display:flex;flex-direction:column;gap:0.6rem;">
+
+        <a href="https://www.facebook.com/share/1Kqj593nQY/" target="_blank" rel="noopener" title="Facebook"
+            style="display:flex;align-items:center;justify-content:center;width:48px;height:48px;border-radius:50%;background:#1877f2;border:2px solid rgba(255,255,255,0.2);box-shadow:0 4px 18px rgba(24,119,242,0.5);transition:transform 0.22s,box-shadow 0.22s;text-decoration:none;"
+            onmouseover="this.style.transform='scale(1.15)';this.style.boxShadow='0 6px 24px rgba(24,119,242,0.75)'"
+            onmouseout="this.style.transform='scale(1)';this.style.boxShadow='0 4px 18px rgba(24,119,242,0.5)'">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="white" xmlns="http://www.w3.org/2000/svg">
+                <path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z" />
+            </svg>
+        </a>
+
+        <a href="https://www.instagram.com/jumping_spacesc?igsh=dnN3eXk5NTZyaXFk" target="_blank" rel="noopener"
+            title="Instagram"
+            style="display:flex;align-items:center;justify-content:center;width:48px;height:48px;border-radius:50%;background:radial-gradient(circle at 30% 110%,#f09433 0%,#e6683c 25%,#dc2743 50%,#cc2366 75%,#bc1888 100%);border:2px solid rgba(255,255,255,0.2);box-shadow:0 4px 18px rgba(220,39,67,0.5);transition:transform 0.22s,box-shadow 0.22s;text-decoration:none;"
+            onmouseover="this.style.transform='scale(1.15)';this.style.boxShadow='0 6px 24px rgba(220,39,67,0.75)'"
+            onmouseout="this.style.transform='scale(1)';this.style.boxShadow='0 4px 18px rgba(220,39,67,0.5)'">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2"
+                stroke-linecap="round" stroke-linejoin="round" xmlns="http://www.w3.org/2000/svg">
+                <rect x="2" y="2" width="20" height="20" rx="5" ry="5" />
+                <circle cx="12" cy="12" r="4" />
+                <circle cx="17.5" cy="6.5" r="1.2" fill="white" stroke="none" />
+            </svg>
+        </a>
+
+    </div>
+
+    <script>
+        const canvas = document.getElementById('c'), ctx = canvas.getContext('2d');
+        let stars = [];
+        function resize() { canvas.width = innerWidth; canvas.height = innerHeight }
+        function init(n = 240) { stars = Array.from({ length: n }, () => ({ x: Math.random() * canvas.width, y: Math.random() * canvas.height, r: Math.random() * 1.3 + 0.2, a: Math.random(), da: (Math.random() * 0.004 + 0.001) * (Math.random() < .5 ? 1 : -1), vx: (Math.random() - .5) * .07, vy: (Math.random() - .5) * .07 })) }
+
+        /* ── ESTRELLAS FUGACES ── */
+        let shooters = [];
+        function spawnShooter() { shooters.push({ x: Math.random() * canvas.width, y: Math.random() * canvas.height * .5, len: Math.random() * 80 + 50, speed: Math.random() * 6 + 4, angle: Math.PI / 4 + (Math.random() - .5) * .4, life: 1 }); setTimeout(spawnShooter, Math.random() * 5000 + 3000) }
+
+        /* ── METEORITOS ── */
+        let meteors = [];
+        function spawnMeteor() {
+            const side = Math.random() < 0.5;
+            meteors.push({
+                x: side ? -60 : canvas.width + 60,
+                y: Math.random() * canvas.height * 0.6,
+                vx: side ? (Math.random() * 3 + 2) : -(Math.random() * 3 + 2),
+                vy: Math.random() * 2 + 1,
+                size: Math.random() * 10 + 6,
+                rot: 0, rotSpeed: (Math.random() - 0.5) * 0.08,
+                trail: [], life: 1, fade: Math.random() * 0.003 + 0.002
+            });
+            setTimeout(spawnMeteor, Math.random() * 8000 + 5000);
+        }
+
+        function drawMeteor(m) {
+            m.trail.push({ x: m.x, y: m.y });
+            if (m.trail.length > 18) m.trail.shift();
+            for (let i = 0; i < m.trail.length - 1; i++) {
+                const alpha = (i / m.trail.length) * m.life * 0.5;
+                ctx.beginPath();
+                ctx.moveTo(m.trail[i].x, m.trail[i].y);
+                ctx.lineTo(m.trail[i + 1].x, m.trail[i + 1].y);
+                ctx.strokeStyle = `rgba(255,180,80,${alpha})`;
+                ctx.lineWidth = (i / m.trail.length) * 3;
+                ctx.stroke();
+            }
+            ctx.save();
+            ctx.translate(m.x, m.y);
+            ctx.rotate(m.rot);
+            ctx.fillStyle = `rgba(200,140,60,${m.life * 0.9})`;
+            ctx.beginPath();
+            for (let i = 0; i < 6; i++) {
+                const angle = (i / 6) * Math.PI * 2;
+                const r = i % 2 === 0 ? m.size : m.size * 0.55;
+                i === 0 ? ctx.moveTo(Math.cos(angle) * r, Math.sin(angle) * r) : ctx.lineTo(Math.cos(angle) * r, Math.sin(angle) * r);
+            }
+            ctx.closePath(); ctx.fill();
+            ctx.restore();
+        }
+
+        /* ── OVNI ── */
+        let ufo = null;
+        function spawnUFO() {
+            const fromLeft = Math.random() < 0.5;
+            ufo = {
+                x: fromLeft ? -120 : canvas.width + 120,
+                y: canvas.height * (0.1 + Math.random() * 0.35),
+                vx: fromLeft ? (Math.random() * 1.5 + 1) : -(Math.random() * 1.5 + 1),
+                bobOffset: Math.random() * Math.PI * 2,
+                beamPulse: 0, lightAngle: 0, done: false
+            };
+            setTimeout(spawnUFO, Math.random() * 14000 + 10000);
+        }
+
+        function drawUFO(u, t) {
+            const bob = Math.sin(t * 0.03 + u.bobOffset) * 5;
+            const cx = u.x, cy = u.y + bob;
+            u.lightAngle += 0.04;
+            u.beamPulse += 0.06;
+
+            /* rayo inferior */
+            const beamAlpha = (Math.sin(u.beamPulse) * 0.15 + 0.2);
+            const grad = ctx.createLinearGradient(cx, cy + 10, cx, cy + 70);
+            grad.addColorStop(0, `rgba(57,255,20,${beamAlpha})`);
+            grad.addColorStop(1, 'rgba(57,255,20,0)');
+            ctx.beginPath();
+            ctx.moveTo(cx - 18, cy + 10);
+            ctx.lineTo(cx + 18, cy + 10);
+            ctx.lineTo(cx + 35, cy + 70);
+            ctx.lineTo(cx - 35, cy + 70);
+            ctx.closePath();
+            ctx.fillStyle = grad; ctx.fill();
+
+            /* cuerpo principal */
+            ctx.save(); ctx.translate(cx, cy);
+            const bodyGrad = ctx.createRadialGradient(0, -4, 2, 0, 0, 38);
+            bodyGrad.addColorStop(0, 'rgba(80,120,80,0.95)');
+            bodyGrad.addColorStop(1, 'rgba(20,50,20,0.95)');
+            ctx.beginPath(); ctx.ellipse(0, 0, 38, 13, 0, 0, Math.PI * 2);
+            ctx.fillStyle = bodyGrad; ctx.fill();
+            ctx.strokeStyle = 'rgba(57,255,20,0.6)'; ctx.lineWidth = 1.2; ctx.stroke();
+
+            /* cúpula */
+            const domeGrad = ctx.createRadialGradient(-6, -18, 2, 0, -14, 20);
+            domeGrad.addColorStop(0, 'rgba(100,200,120,0.8)');
+            domeGrad.addColorStop(1, 'rgba(10,60,20,0.9)');
+            ctx.beginPath(); ctx.ellipse(0, -12, 20, 16, 0, Math.PI, 0);
+            ctx.fillStyle = domeGrad; ctx.fill();
+            ctx.strokeStyle = 'rgba(57,255,20,0.4)'; ctx.lineWidth = 1; ctx.stroke();
+
+            /* luces parpadeantes */
+            const lights = [-28, -16, 0, 16, 28];
+            lights.forEach((lx, i) => {
+                const pulse = Math.sin(u.lightAngle + i * 1.2);
+                const colors = ['#39ff14', '#0affb3', '#ffd966', '#ff6090', '#39ff14'];
+                ctx.beginPath(); ctx.arc(lx, 4, 3, 0, Math.PI * 2);
+                ctx.fillStyle = pulse > 0 ? colors[i] : 'rgba(20,40,20,0.8)';
+                ctx.fill();
+            });
+            ctx.restore();
+        }
+
+        /* ── LOOP PRINCIPAL ── */
+        let frameCount = 0;
+        function frame() {
+            frameCount++;
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+            /* estrellas */
+            for (const s of stars) {
+                s.x += s.vx; s.y += s.vy; s.a += s.da;
+                if (s.a > 1) s.da = -Math.abs(s.da); if (s.a < 0) s.da = Math.abs(s.da);
+                if (s.x < 0) s.x = canvas.width; if (s.x > canvas.width) s.x = 0;
+                if (s.y < 0) s.y = canvas.height; if (s.y > canvas.height) s.y = 0;
+                ctx.beginPath(); ctx.arc(s.x, s.y, s.r, 0, Math.PI * 2);
+                ctx.fillStyle = `rgba(200,255,200,${s.a * .85})`; ctx.fill();
+            }
+
+            /* estrellas fugaces */
+            for (let i = shooters.length - 1; i >= 0; i--) {
+                const s = shooters[i];
+                s.x += Math.cos(s.angle) * s.speed; s.y += Math.sin(s.angle) * s.speed; s.life -= .025;
+                if (s.life <= 0 || s.x > canvas.width || s.y > canvas.height) { shooters.splice(i, 1); continue }
+                const tx = s.x - Math.cos(s.angle) * s.len, ty = s.y - Math.sin(s.angle) * s.len;
+                const g = ctx.createLinearGradient(tx, ty, s.x, s.y);
+                g.addColorStop(0, 'transparent'); g.addColorStop(1, `rgba(180,255,180,${s.life * .8})`);
+                ctx.beginPath(); ctx.moveTo(tx, ty); ctx.lineTo(s.x, s.y);
+                ctx.strokeStyle = g; ctx.lineWidth = 1.5; ctx.stroke();
+            }
+
+            /* meteoritos */
+            for (let i = meteors.length - 1; i >= 0; i--) {
+                const m = meteors[i];
+                m.x += m.vx; m.y += m.vy; m.rot += m.rotSpeed; m.life -= m.fade;
+                if (m.life <= 0 || m.y > canvas.height + 80 || m.x < -100 || m.x > canvas.width + 100) { meteors.splice(i, 1); continue }
+                drawMeteor(m);
+            }
+
+            /* ovni */
+            if (ufo && !ufo.done) {
+                ufo.x += ufo.vx;
+                if ((ufo.vx > 0 && ufo.x > canvas.width + 140) || (ufo.vx < 0 && ufo.x < -140)) ufo.done = true;
+                else drawUFO(ufo, frameCount);
+            }
+
+            requestAnimationFrame(frame);
+        }
+
+        resize(); init(); frame(); spawnShooter(); spawnMeteor(); spawnUFO();
+        window.addEventListener('resize', () => { resize(); init() });
+
+        const warp = document.getElementById('warp');
+        const warpLines = document.getElementById('warp-lines');
+        const wlCtx = warpLines.getContext('2d');
+
+        function drawWarpLines() {
+            warpLines.width = innerWidth; warpLines.height = innerHeight;
+            const cx = innerWidth / 2, cy = innerHeight / 2;
+            wlCtx.clearRect(0, 0, warpLines.width, warpLines.height);
+            for (let i = 0; i < 80; i++) {
+                const angle = Math.random() * Math.PI * 2;
+                const dist = Math.random() * 80 + 20;
+                const len = Math.random() * 220 + 80;
+                const x1 = cx + Math.cos(angle) * dist;
+                const y1 = cy + Math.sin(angle) * dist;
+                const x2 = cx + Math.cos(angle) * (dist + len);
+                const y2 = cy + Math.sin(angle) * (dist + len);
+                const g = wlCtx.createLinearGradient(x1, y1, x2, y2);
+                g.addColorStop(0, 'rgba(57,255,20,0)');
+                g.addColorStop(0.3, `rgba(57,255,20,${Math.random() * 0.6 + 0.3})`);
+                g.addColorStop(1, 'rgba(10,255,179,0)');
+                wlCtx.beginPath(); wlCtx.moveTo(x1, y1); wlCtx.lineTo(x2, y2);
+                wlCtx.strokeStyle = g; wlCtx.lineWidth = Math.random() * 1.5 + 0.5; wlCtx.stroke();
+            }
+        }
+
+        function fireWarp() {
+            drawWarpLines();
+            warp.classList.remove('fire'); warpLines.classList.remove('fire');
+            void warp.offsetWidth;
+            warp.classList.add('fire'); warpLines.classList.add('fire');
+        }
+
+        function show(id, btn) {
+            fireWarp();
+            setTimeout(() => {
+                document.querySelectorAll('.sec').forEach(s => s.classList.remove('active'));
+                document.querySelectorAll('nav button').forEach(b => b.classList.remove('active-btn'));
+                const sec = document.getElementById(id);
+                if (sec) sec.classList.add('active');
+                if (btn) btn.classList.add('active-btn');
+                requestAnimationFrame(() => {
+                    const h = document.querySelector('header').offsetHeight;
+                    const top = sec.getBoundingClientRect().top + scrollY - h - 12;
+                    window.scrollTo({ top, behavior: 'smooth' });
+                });
+            }, 170);
+        }
+
+        document.querySelector('nav button').classList.add('active-btn');
+    </script>
+
+</body>
+
+</html>
