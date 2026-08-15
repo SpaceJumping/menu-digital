@@ -491,12 +491,18 @@ footer {
 
 header {
     display: flex;
+    flex-wrap: wrap;
     justify-content: space-between;
     /* logos a los lados */
     align-items: center;
     padding: 20px 30px;
     background: #03030f;
     border-bottom: 2px solid #39ff14;
+}
+
+.title-block {
+    flex: 1 1 auto;
+    min-width: 0;
 }
 
 header h1 {
@@ -518,4 +524,24 @@ header p {
     width: 80px;
     /* ajusta según tu imagen */
     height: auto;
+}
+
+@media(max-width:600px) {
+    header {
+        padding: 12px 14px;
+        gap: 0.5rem;
+    }
+
+    .logo {
+        width: 42px;
+    }
+
+    header h1 {
+        font-size: clamp(1rem, 5.5vw, 1.4rem);
+        letter-spacing: 1.5px;
+    }
+
+    header p {
+        font-size: 0.68rem;
+    }
 }
