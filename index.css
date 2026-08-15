@@ -491,7 +491,7 @@ footer {
 
 header {
     display: flex;
-    flex-wrap: wrap;
+    flex-wrap: nowrap;
     justify-content: space-between;
     /* logos a los lados */
     align-items: center;
@@ -528,20 +528,22 @@ header p {
 
 @media(max-width:600px) {
     header {
-        padding: 12px 14px;
-        gap: 0.5rem;
+        padding: 10px 8px;
+        gap: 0.4rem;
     }
 
     .logo {
-        width: 42px;
+        width: 34px;
+        flex-shrink: 0;
     }
 
     header h1 {
-        font-size: clamp(1rem, 5.5vw, 1.4rem);
-        letter-spacing: 1.5px;
+        font-size: clamp(0.75rem, 4.2vw, 1.1rem);
+        letter-spacing: 0.5px;
     }
 
     header p {
-        font-size: 0.68rem;
+        font-size: 0.6rem;
+        letter-spacing: 0.5px;
     }
 }
