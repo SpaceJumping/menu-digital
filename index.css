@@ -200,6 +200,7 @@ nav button.active-btn {
 
 .sec.active {
     display: grid;
+    align-items: start;
     animation: secIn 0.45s cubic-bezier(0.22, 1, 0.36, 1) both
 }
 
@@ -522,7 +523,6 @@ header p {
 
 .logo {
     width: 80px;
-    /* ajusta según tu imagen */
     height: auto;
 }
 
